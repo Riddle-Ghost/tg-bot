@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\Log\Db;
+namespace Riddle\TgBase\Log\Db;
 
 class LogRepository
 {

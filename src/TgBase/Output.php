@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase;
+namespace Riddle\TgBase;
 
 use Telegram\Bot\Keyboard\Keyboard;
 

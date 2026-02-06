@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\User\Entity;
+namespace Riddle\TgBase\User\Entity;
 
 class Settings
 {

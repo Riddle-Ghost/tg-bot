@@ -1,14 +1,14 @@
 <?php
 
-namespace TgBase;
+namespace Riddle\TgBase;
 
-use TgBase\Output;
+use Riddle\TgBase\Output;
 use Telegram\Bot\Api;
-use TgBase\TgBotConfig;
+use Riddle\TgBase\TgBotConfig;
 use Telegram\Bot\Objects\Update;
-use TgBase\User\Db\UserRepository;
-use TgBase\User\Entity\Settings;
-use TgBase\User\Entity\User;
+use Riddle\TgBase\User\Db\UserRepository;
+use Riddle\TgBase\User\Entity\Settings;
+use Riddle\TgBase\User\Entity\User;
 
 class TgBot
 {
@@ -16,10 +16,11 @@ class TgBot
     private UserRepository $userRepository;
 
     public function __construct(
-        private TgBotHandlerInterface $tgBotHandler,
-        private TgBotConfig $tgBotConfig
+        // private TgBotHandlerInterface $tgBotHandler,
+        // private TgBotConfig $tgBotConfig
     )
     {
+        var_dump(123);die;
         $this->api = new Api($this->tgBotConfig->tgBotToken);
         $this->api->deleteWebhook();
         $this->userRepository = new UserRepository();

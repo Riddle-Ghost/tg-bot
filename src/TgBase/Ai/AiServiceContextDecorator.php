@@ -1,9 +1,9 @@
 <?php
 
-namespace TgBase\Ai;
+namespace Riddle\TgBase\Ai;
 
-use TgBase\Ai\Entity\AiContext;
-use TgBase\Ai\Db\AiContextRepository;
+use Riddle\TgBase\Ai\Entity\AiContext;
+use Riddle\TgBase\Ai\Db\AiContextRepository;
 
 class AiServiceContextDecorator extends AiService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase;
+namespace Riddle\TgBase;
 
 interface TgBotHandlerInterface
 {

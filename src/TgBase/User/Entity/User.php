@@ -1,8 +1,8 @@
 <?php
 
-namespace TgBase\User\Entity;
+namespace Riddle\TgBase\User\Entity;
 
-use TgBase\User\Entity\Settings;
+use Riddle\TgBase\User\Entity\Settings;
 
 class User
 {

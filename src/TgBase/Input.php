@@ -1,8 +1,8 @@
 <?php
 
-namespace TgBase;
+namespace Riddle\TgBase;
 
-use TgBase\User\Entity\User;
+use Riddle\TgBase\User\Entity\User;
 
 class Input
 {

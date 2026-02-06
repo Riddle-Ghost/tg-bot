@@ -1,8 +1,8 @@
 <?php
 
-namespace TgBase\Ai\Db;
+namespace Riddle\TgBase\Ai\Db;
 
-use TgBase\Ai\Entity\AiContext;
+use Riddle\TgBase\Ai\Entity\AiContext;
 
 class AiContextRepository
 {

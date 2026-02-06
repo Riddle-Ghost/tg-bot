@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\Ai\Entity;
+namespace Riddle\TgBase\Ai\Entity;
 
 class AiContext
 {

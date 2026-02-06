@@ -1,9 +1,9 @@
 <?php
 
-namespace TgBase\User\Db;
+namespace Riddle\TgBase\User\Db;
 
-use TgBase\User\Entity\User;
-use TgBase\User\Entity\Settings;
+use Riddle\TgBase\User\Entity\User;
+use Riddle\TgBase\User\Entity\Settings;
 
 class UserRepository
 {

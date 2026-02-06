@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\Db;
+namespace Riddle\TgBase\Db;
 
 require_once __DIR__ . '/rb-sqlite.php';
 

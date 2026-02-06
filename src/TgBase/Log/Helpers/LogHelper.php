@@ -1,8 +1,8 @@
 <?php
 
-namespace TgBase\Log\Helpers;
+namespace Riddle\TgBase\Log\Helpers;
 
-use TgBase\Log\Db\LogRepository;
+use Riddle\TgBase\Log\Db\LogRepository;
 
 class LogHelper
 {

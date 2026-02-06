@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\Ai;
+namespace Riddle\TgBase\Ai;
 
 class AiConfig
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace TgBase\Ai\Api;
+namespace Riddle\TgBase\Ai\Api;
 
-use TgBase\Ai\AiConfig;
+use Riddle\TgBase\Ai\AiConfig;
 use RuntimeException;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
-use TgBase\Ai\Entity\AiContext;
+use Riddle\TgBase\Ai\Entity\AiContext;
 use GuzzleHttp\Exception\GuzzleException;
 
 class BaseApi

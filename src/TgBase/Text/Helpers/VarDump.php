@@ -1,6 +1,6 @@
 <?php
 
-namespace TgBase\Text\Helpers;
+namespace Riddle\TgBase\Text\Helpers;
 
 class VarDump
 {

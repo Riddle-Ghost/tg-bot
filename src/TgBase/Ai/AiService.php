@@ -1,9 +1,9 @@
 <?php
 
-namespace TgBase\Ai;
+namespace Riddle\TgBase\Ai;
 
-use TgBase\Ai\Entity\AiContext;
-use TgBase\Ai\Api\BaseApi;
+use Riddle\TgBase\Ai\Entity\AiContext;
+use Riddle\TgBase\Ai\Api\BaseApi;
 
 class AiService
 {
