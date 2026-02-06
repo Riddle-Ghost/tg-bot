@@ -111,6 +111,18 @@ class TgBot
         return null;
     }
 
+    private function addCommands()
+    {
+        // async def _addCommands(self):
+        //     await self.bot.set_my_commands(self.handler.commands())
+
+        //     # Получаем и выводим актуальный список команд
+        //     actualCommands = await self.bot.get_my_commands()
+        //     VarDump.info("Список команд:")
+        //     for cmd in actualCommands:
+        //     VarDump.dd(f" - /{cmd.command}: {cmd.description}")
+    }
+
     private function getUser(Update $update): User
     {
         $tgId = $update->getRelatedObject()->getChat()

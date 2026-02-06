@@ -27,14 +27,24 @@ class DbStart
         )");
         \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_tg_id ON user (tg_id)");
 
+        \R::exec("CREATE TABLE IF NOT EXISTS ai_context (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tg_id BIGINT UNIQUE,
+            context TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+        \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_tg_id ON ai_context (tg_id)");
 
-        // \R::exec("CREATE TABLE IF NOT EXISTS ai_context (
-        //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-        //     tg_id BIGINT UNIQUE,
-        //     context TEXT,
-        //     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        //     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        // )");
-        // \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_tg_id ON ai_context (tg_id)");
+        # database = db_logs
+        \R::exec("CREATE TABLE IF NOT EXISTS log (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            type VARCHAR(20) UNIQUE,
+            user_id INTEGER,
+            text TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+        \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_type ON log (type)");
+        \R::exec("CREATE  INDEX IF NOT EXISTS idx_user_id ON log (user_id)");
     }
 }
