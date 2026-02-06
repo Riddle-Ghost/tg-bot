@@ -2,36 +2,48 @@
 
 namespace Riddle\TgBotBase\Ai\Api;
 
-use Riddle\TgBotBase\Ai\AiConfig;
+use OpenAI;
 use RuntimeException;
-use GuzzleHttp\Client;
-use InvalidArgumentException;
-use Riddle\TgBotBase\Ai\Entity\AiContext;
 use GuzzleHttp\Exception\GuzzleException;
+use Riddle\TgBotBase\Ai\Entity\AiContext;
 
-class OpenaiPromptAPI extends BaseApi
+class OpenaiPromptAPI implements ApiInterface
 {
-    private Client $client;
+    private OpenAI\Client $client;
 
     public function __construct(
         protected string $token,
         protected string $promptId,
     )
     {
-        $this->client = new OpenAI(api_key=self.token)
+        $this->client = OpenAI::client($this->token);
     }
-
 
     /**
      * @throws RuntimeException|GuzzleException
      */
     public function request(AiContext $aiContext): string
     {
-        // response = self.client.responses.create(
-        //     prompt={
-        //         "id": self.promptId,
-        //     },
-        //     input=aiContextDto.getContext()
-        // )
+        $response = $this->client->responses()->create([
+            // 'model' => 'gpt-4.1-mini',
+            'prompt' => [
+                'id'      => $this->promptId,
+                // 'version' => '1',
+            ],
+            'input' => $aiContext->getContext(),
+        ]);
+
+        $text = '';
+        foreach ($response->output as $item) {
+            if ($item->type === 'message') {
+                foreach ($item->content as $content) {
+                    if ($content->type === 'output_text') {
+                        $text .= $content->text;
+                    }
+                }
+            }
+        }
+        
+        return $text;
     }
 }

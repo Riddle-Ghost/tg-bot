@@ -2,14 +2,14 @@
 
 namespace Riddle\TgBotBase\Ai;
 
+use Riddle\TgBotBase\Ai\Api\ApiInterface;
 use Riddle\TgBotBase\Ai\Entity\AiContext;
-use Riddle\TgBotBase\Ai\Api\BaseApi;
 
 class AiService
 {
-    private BaseApi $api;
+    private ApiInterface $api;
 
-    public function __construct(BaseApi $api)
+    public function __construct(ApiInterface $api)
     {
         $this->api = $api;
     }

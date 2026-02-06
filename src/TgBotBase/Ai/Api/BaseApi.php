@@ -2,14 +2,14 @@
 
 namespace Riddle\TgBotBase\Ai\Api;
 
-use Riddle\TgBotBase\Ai\AiConfig;
 use RuntimeException;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
-use Riddle\TgBotBase\Ai\Entity\AiContext;
+use Riddle\TgBotBase\Ai\AiConfig;
 use GuzzleHttp\Exception\GuzzleException;
+use Riddle\TgBotBase\Ai\Entity\AiContext;
 
-class BaseApi
+class BaseApi implements ApiInterface
 {
     private Client $client;
 
