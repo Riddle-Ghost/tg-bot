@@ -8,12 +8,21 @@ class DbStart
 {
     public static function init(): void
     {
-        \R::setup('sqlite:./database.sqlite');
+        \R::setup('sqlite:./default.sqlite');
+        \R::addDatabase('logs', 'sqlite:./db_logs.sqlite');
+        // \R::addDatabase('users', 'sqlite:./db_users.sqlite');
+
         self::initTables();
         // \R::freeze(true); // RedBean не будет пытаться менять структуру БД
     }
 
     private static function initTables(): void
+    {
+        self::initDefaultTables();
+        self::initLogTables();
+    }
+
+    private static function initDefaultTables(): void
     {
         \R::exec("CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,8 +44,12 @@ class DbStart
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
         \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_tg_id ON ai_context (tg_id)");
+    }
 
-        # database = db_logs
+    private static function initLogTables(): void
+    {
+        \R::selectDatabase('logs');
+
         \R::exec("CREATE TABLE IF NOT EXISTS log (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             type VARCHAR(20) UNIQUE,
@@ -46,5 +59,9 @@ class DbStart
         )");
         \R::exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_type ON log (type)");
         \R::exec("CREATE  INDEX IF NOT EXISTS idx_user_id ON log (user_id)");
+
+        \R::selectDatabase('default');
     }
+
+    
 }

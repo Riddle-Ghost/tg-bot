@@ -1,10 +1,11 @@
 <?php
 
-namespace Riddle\TgBotBase;
+namespace Riddle\TgBotBase\BotCore;
 
-use Riddle\TgBotBase\Output;
+use Riddle\TgBotBase\BotCore\Dto\Input;
+use Riddle\TgBotBase\BotCore\Dto\Output;
 use Telegram\Bot\Api;
-use Riddle\TgBotBase\TgBotConfig;
+use Riddle\TgBotBase\BotCore\TgBotConfig;
 use Telegram\Bot\Objects\Update;
 use Riddle\TgBotBase\User\Db\UserRepository;
 use Riddle\TgBotBase\User\Entity\Settings;
@@ -125,16 +126,16 @@ class TgBot
 
     private function getUser(Update $update): User
     {
-        $tgId = $update->getRelatedObject()->getChat()
-            ? $update->getRelatedObject()->getChat()->getId()
-            : $update->getRelatedObject()->getMessage()->getChat()->getId();
+        $chat = $update->getRelatedObject()->getChat()
+            ? $update->getRelatedObject()->getChat()
+            : $update->getRelatedObject()->getMessage()->getChat();
 
-        $user = $this->userRepository->getByTgId($tgId);
+        $user = $this->userRepository->getByTgId($chat->getId());
         if (!$user) {
             $user = new User(
                 id: null,
-                tgId: $tgId,
-                username: $update->getRelatedObject()->getChat()->getUsername(),
+                tgId: $chat->getId(),
+                username: $chat->getUsername(),
                 isPremium: false,
                 isBlocked: false,
                 settings: new Settings()

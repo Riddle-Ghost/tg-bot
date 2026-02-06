@@ -1,6 +1,9 @@
 <?php
 
-namespace Riddle\TgBotBase;
+namespace Riddle\TgBotBase\BotCore;
+
+use Riddle\TgBotBase\BotCore\Dto\Input;
+use Riddle\TgBotBase\BotCore\Dto\Output;
 
 interface TgBotHandlerInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddle\TgBotBase;
+namespace Riddle\TgBotBase\BotCore;
 
 use Telegram\Bot\Keyboard\Keyboard as TelegramKeyboard;
 use Telegram\Bot\Keyboard\Button;
@@ -26,6 +26,11 @@ class Keyboard
     public static function buttonToStart(): Button
     {
         return self::button(text: 'К началу', callbackData: '/start');
+    }
+
+    private function buttonSettings(): Button
+    {
+        return self::button("Количество кнопок в ряду", "/settings_keyboard-row");
     }
 
     /**

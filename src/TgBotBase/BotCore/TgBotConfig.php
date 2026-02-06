@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddle\TgBotBase;
+namespace Riddle\TgBotBase\BotCore;
 
 class TgBotConfig
 {
