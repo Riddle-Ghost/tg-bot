@@ -6,11 +6,15 @@ require_once __DIR__ . '/rb-sqlite.php';
 
 class DbHelper
 {
-    public static function init(): void
+    public static function init(DbConfig $config): void
     {
-        \R::setup('sqlite:./default.sqlite');
-        \R::addDatabase('logs', 'sqlite:./db_logs.sqlite');
+        \R::setup('sqlite:' . $config->dbDir . '/default.sqlite');
+        \R::addDatabase('logs', 'sqlite:' . $config->dbDir . '/db_logs.sqlite');
 
+        foreach ($config->sqlExecutions as $sql) {
+            var_dump($sql);
+            \R::exec($sql);
+        }
         self::initTables();
         \R::freeze(true); // RedBean не будет пытаться менять структуру БД
     }
@@ -61,6 +65,4 @@ class DbHelper
 
         \R::selectDatabase('default');
     }
-
-    
 }

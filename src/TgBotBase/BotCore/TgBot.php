@@ -22,7 +22,7 @@ class TgBot
         private TgBotConfig $tgBotConfig
     )
     {
-        DbHelper::init();
+        DbHelper::init($tgBotConfig->dbConfig);
         $this->api = new Api($this->tgBotConfig->tgBotToken);
         $this->api->deleteWebhook();
         $this->addCommands();
@@ -31,9 +31,12 @@ class TgBot
 
     public function run()
     {
-        $updates = $this->getUpdates();
+        $offset = null;
 
-        while (count($updates) > 0) {
+        // while (count($updates) > 0) {
+        while (true) {
+            $updates = $this->getUpdates($offset);
+
             foreach ($updates as $update) {
 
                 $output = $this->handleEvent($update);
@@ -47,10 +50,8 @@ class TgBot
                         'reply_markup' => $output->keyboard
                     ]);
                 }
+                $offset = $update->getUpdateId() + 1;
             }
-
-            $offset = $update->getUpdateId() + 1;
-            $updates = $this->getUpdates($offset);
         }
     }
 
@@ -93,7 +94,6 @@ class TgBot
                     $user,
                 );
 
-
                 if ($relatedObject->getText() === '/start') {
                     return $this->tgBotHandler->handleStart($input);
                 }
@@ -117,18 +117,12 @@ class TgBot
 
     private function addCommands(): void
     {
-        $commands = [
+        $commands['commands'] = [
             ['command' => 'start', 'description' => 'Запуск'],
-            ['command' => 'help', 'description' => 'Помощь'],
+            ['command' => 'info', 'description' => 'Информация'],
+            ['command' => 'settings', 'description' => 'Настройки'],
         ];
         $this->api->setMyCommands($commands);
-
-
-        //     # Получаем и выводим актуальный список команд
-        //     actualCommands = await self.bot.get_my_commands()
-        //     VarDump.info("Список команд:")
-        //     for cmd in actualCommands:
-        //     VarDump.dd(f" - /{cmd.command}: {cmd.description}")
     }
 
     private function getUser(Update $update): User
