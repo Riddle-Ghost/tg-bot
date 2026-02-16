@@ -4,34 +4,40 @@ namespace Riddle\TgBotBase\Db;
 
 class DbConfig
 {
-    public readonly string $dbDir;
-    private(set) array $sqlExecutions = [];
-    private(set) array $sqlExecutionFiles = [];
-    
     public function __construct(
-        string $dbDir
-    )
+        public readonly string $dbDir,
+        public private(set) array $migrations = [],
+        public private(set) array $seedFiles = [],
+        public private(set) array $sqlExecutions = [],
+    ) {}
+
+    /**
+     * Можно добавлять новые таблицы и индексы
+     */
+    public function addMigration(MigrationDto $dto): self
     {
-        $this->dbDir = $dbDir;
+        $this->migrations[] = $dto;
+
+        return $this;
+    }
+    
+    /**
+     * Можно заполнять таблицы
+     */
+    public function addSeedFile(string $filePath): self
+    {
+        $this->seedFiles[] = $filePath;
+
+        return $this;
     }
 
     /**
-     * SQL выполняется при запуске скрипта. Можно добавлять новые таблицы и индексы
+     * SQL выполняется при запуске скрипта.
      */
     public function addExecution(string $sql): self
     {
         $this->sqlExecutions[] = $sql;
 
         return $this;
-    }
-
-    /**
-     * Файл SQL выполняется при запуске скрипта. Можно добавлять новые таблицы, индексы или заполнять таблицы данными
-     */
-    public function addExecutionFile(string $filePath): self
-    {
-        $this->sqlExecutions[] = $filePath;
-
-        return $this;
-    }
+    }    
 }
