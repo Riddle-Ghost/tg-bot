@@ -8,34 +8,30 @@ class AiContext
     public const ROLE_USER = "user";
     public const ROLE_ASSISTANT = "assistant";
 
-    public ?int $tgId = null;
-    /** @var array<array{role: string, content: string}> */
-    public array $context = [];
+    public function __construct(
+        public readonly int $tgId,
+        /** @var array<array{role: string, content: string}> $context */
+        public private(set) array $context = []
+    ) {}
 
-    public function __construct(?int $tgId = null)
-    {
-        $this->tgId = $tgId;
-    }
-
-    public function addUser(string $content): void
+    public function addUserContext(string $content): self
     {
         $this->context[] = [
             "role" => self::ROLE_USER,
             "content" => $content
         ];
+
+        return $this;
     }
 
-    public function addAssistant(string $content): void
+    public function addAssistantContext(string $content): self
     {
         $this->context[] = [
             "role" => self::ROLE_ASSISTANT,
             "content" => $content
         ];
-    }
 
-    public function getContext(): array
-    {
-        return $this->context;
+        return $this;
     }
 
     /**
@@ -56,7 +52,7 @@ class AiContext
 
             // Ищем первое (самое старое) сообщение, которое не является системным
             foreach ($this->context as $index => $msg) {
-                if ($msg['role'] !== self::ROLE_SYSTEM) {
+                if ($msg['role'] !== self::ROLE_SYSTEM && $index !== count($this->context) - 1) {
                     $oldestUserMsgIndex = $index;
                     break;
                 }

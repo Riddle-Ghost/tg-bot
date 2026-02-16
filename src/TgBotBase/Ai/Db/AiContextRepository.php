@@ -17,22 +17,13 @@ class AiContextRepository extends BaseRepository
         return AiContextMigration::TABLE_NAME;
     }
 
-    public function getByTgId(int $tgId): ?AiContext
+    public function getByTgId(int $tgId): AiContext
     {
         $bean = $this->getModel($tgId);
 
-        // Если запись не найдена или поле context пустое
-        if (!$bean || empty($bean->context)) {
-            return null;
-        }
+        $context = $bean && $bean->context ? json_decode($bean->context, true) : [];
 
-        $dto = new AiContext($tgId);
-        
-        // Декодируем JSON из базы в массив PHP
-        $decodedContext = json_decode($bean->context, true);
-        
-        // Проверяем, что это массив, и записываем в DTO
-        $dto->context = is_array($decodedContext) ? $decodedContext : [];
+        $dto = new AiContext($tgId, $context);
 
         return $dto;
     }
@@ -44,17 +35,13 @@ class AiContextRepository extends BaseRepository
     {
         $bean = $this->getModel($dto->tgId);
 
-        // Если записи нет, создаем новую "бину" (bean)
         if (!$bean) {
             $bean = \R::dispense($this->getTable());
             $bean->tg_id = $dto->tgId;
         }
 
-        // Кодируем массив в JSON. 
-        // JSON_UNESCAPED_UNICODE — чтобы кириллица не превращалась в \u0430
-        // JSON_PRETTY_PRINT — для читаемости (аналог indent=2)
         $bean->context = json_encode(
-            $dto->getContext(), 
+            $dto->context, 
             JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
         );
 

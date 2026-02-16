@@ -2,6 +2,7 @@
 
 namespace Riddle\TgBotBase\Ai;
 
+use RuntimeException;
 use Riddle\TgBotBase\Ai\Entity\AiContext;
 use Riddle\TgBotBase\Ai\Db\AiContextRepository;
 
@@ -9,43 +10,40 @@ class AiServiceContextDecorator extends AiService
 {
     private AiService $aiService;
     private AiContextRepository $aiContextRepository;
+    private ?int $trimContextSize = null;
 
-    public function __construct(AiService $aiService)
+    public function __construct(AiService $aiService, ?int $trimContextSize = null)
     {
         $this->aiService = $aiService;
         $this->aiContextRepository = new AiContextRepository();
+        $this->trimContextSize = $trimContextSize;
     }
 
     public function request(AiContext $aiContext): string
     {
         $aiContext = $this->withAllContext($aiContext);
-        $aiContext->trimContext(5000);
 
         $responseText = $this->aiService->request($aiContext);
 
-        $aiContext->addAssistant($responseText);
-        $this->saveContext($aiContext);
-
-        // LogHelper::aiRequest($aiContext->getContext(), $aiContext->userId);
+        $aiContext->addAssistantContext($responseText);
+        $this->aiContextRepository->save($aiContext);
 
         return $responseText;
     }
 
-    public function saveContext(AiContext $aiContext): void
+    private function withAllContext(AiContext $userContext): AiContext
     {
-        $this->aiContextRepository->save($aiContext);
-    }
-
-    public function withAllContext(AiContext $aiContext): AiContext
-    {
-        $dto = $this->aiContextRepository->getByTgId($aiContext->tgId);
-
-        if ($dto === null) {
-            return $aiContext;
+        if (!isset($userContext->context[0]['content'])) {
+            throw new RuntimeException('User context is empty');
         }
 
-        $dto->addUser($aiContext->getContext()[0]["content"]);
+        $allContext = $this->aiContextRepository->getByTgId($userContext->tgId);
+        $allContext->addUserContext($userContext->context[0]['content']);
 
-        return $dto;
+        if ($this->trimContextSize) {
+            $allContext->trimContext($this->trimContextSize);
+        }
+
+        return $allContext;
     }
 }

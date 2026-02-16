@@ -4,8 +4,6 @@ namespace Riddle\TgBotBase\Ai\Api;
 
 use RuntimeException;
 use GuzzleHttp\Client;
-use InvalidArgumentException;
-use Riddle\TgBotBase\Ai\AiConfig;
 use GuzzleHttp\Exception\GuzzleException;
 use Riddle\TgBotBase\Ai\Entity\AiContext;
 
@@ -34,11 +32,9 @@ class BaseApi implements ApiInterface
                     'Authorization' => 'Bearer ' . $this->token,
                     'Accept'        => 'application/json',
                 ],
-                // Опция 'json' автоматически кодирует массив в JSON 
-                // и ставит заголовок Content-Type: application/json
                 'json' => [
                     'model'    => $this->model,
-                    'messages' => $aiContext->getContext(),
+                    'messages' => $aiContext->context,
                 ],
                 'timeout' => 30,
             ]);

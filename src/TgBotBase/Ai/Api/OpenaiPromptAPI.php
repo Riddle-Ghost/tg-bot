@@ -30,7 +30,7 @@ class OpenaiPromptAPI implements ApiInterface
                 'id'      => $this->promptId,
                 // 'version' => '1',
             ],
-            'input' => $aiContext->getContext(),
+            'input' => $aiContext->context,
         ]);
 
         $text = '';
