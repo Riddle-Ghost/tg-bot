@@ -22,9 +22,15 @@ $openaiPromptId = '';
 
 # OpenRouter API Configuration
 $openrouterApiKey = '';
-$openrouterApiUrl = '';
-$openrouterModel = '';
+$openrouterApiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+$openrouterModel = 'deepseek/deepseek-r1-0528:free';
+
+# Gemini API Configuration
+$geminiApiKey = '';
+$geminiApiUrl = 'https://generativelanguage.googleapis.com/v1beta/chat/completions';
+$geminiModel = 'gemini-flash-latest';
 //==================
+
 
 $dbConfig = (new GetTestDbConfig())();
 $tgBotConfig = new TgBotConfig($tgBotToken, $dbConfig);
@@ -38,8 +44,13 @@ $openrouterAPI = new BaseApi(
     url: $openrouterApiUrl,
     model: $openrouterModel,
 );
+$geminiAPI = new BaseApi(
+    token: $geminiApiKey,
+    url: $geminiApiUrl,
+    model: $geminiModel,
+);
 
-$aiService = new AiService($openrouterAPI);
+$aiService = new AiService($geminiAPI);
 $aiService = new AiServiceContextDecorator($aiService, 1500);
 $aiService = new AiServiceLogDecorator($aiService);
         
