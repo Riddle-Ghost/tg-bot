@@ -17,7 +17,10 @@ class BaseApi implements ApiInterface
         public readonly string $model,
     )
     {
-        $this->client = new Client();
+        $this->client = new Client([
+            'timeout'  => 180.0, // Время ожидания ответа в секундах
+            'connect_timeout' => 30.0, // Время на установку соединения
+        ]);
     }
 
     /**
@@ -36,7 +39,6 @@ class BaseApi implements ApiInterface
                     'model'    => $this->model,
                     'messages' => $aiContext->context,
                 ],
-                'timeout' => 30,
             ]);
 
             $data = json_decode($response->getBody()->getContents(), true);

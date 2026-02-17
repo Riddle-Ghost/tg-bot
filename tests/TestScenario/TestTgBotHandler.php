@@ -30,7 +30,6 @@ class TestTgBotHandler implements TgBotHandlerInterface
         $responseText = $this->aiService->request($context);
 
         return new Output($responseText);
-
     }
 
     public function handleCommand(Input $input): Output

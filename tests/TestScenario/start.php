@@ -6,6 +6,7 @@ require __DIR__.'/GetTestDbConfig.php';
 
 use Riddle\TgBotBase\Ai\AiService;
 use Riddle\TgBotBase\BotCore\TgBot;
+use Riddle\TgBotBase\Ai\Api\BaseApi;
 use Riddle\TgBotBase\BotCore\TgBotConfig;
 use Riddle\TgBotBase\Ai\Api\OpenaiPromptAPI;
 use Riddle\TgBotBase\Ai\AiServiceLogDecorator;
@@ -21,18 +22,24 @@ $openaiPromptId = '';
 
 # OpenRouter API Configuration
 $openrouterApiKey = '';
-$openrouterApiUrl = '';
-$openrouterModel = '';
+$openrouterApiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+$openrouterModel = 'deepseek/deepseek-r1-0528:free';
 //==================
 
 $dbConfig = (new GetTestDbConfig())();
 $tgBotConfig = new TgBotConfig($tgBotToken, $dbConfig);
 
-$api = new OpenaiPromptAPI(
-    $openaiApiKey,
-    $openaiPromptId,
+$openaiPromptAPI = new OpenaiPromptAPI(
+    token: $openaiApiKey,
+    promptId: $openaiPromptId,
 );
-$aiService = new AiService($api);
+$openrouterAPI = new BaseApi(
+    token: $openrouterApiKey,
+    url: $openrouterApiUrl,
+    model: $openrouterModel,
+);
+
+$aiService = new AiService($openrouterAPI);
 $aiService = new AiServiceContextDecorator($aiService, 1500);
 $aiService = new AiServiceLogDecorator($aiService);
         
