@@ -20,12 +20,33 @@ class DbConfig
 
         return $this;
     }
+
+    /**
+     * Можно заполнять таблицы
+     */
+    public function addSeedDirectory(string $directory): self
+    {
+        if (!is_dir($directory)) {
+            throw new \InvalidArgumentException("Директория не найдена: {$directory}");
+        }
+
+        foreach (scandir($directory) as $file) {
+            if (is_file($directory . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'sql') {
+                $this->addSeedFile($directory . $file);
+            }
+        }
+
+        return $this;
+    }
     
     /**
      * Можно заполнять таблицы
      */
     public function addSeedFile(string $filePath): self
     {
+        if (!is_file($filePath) || pathinfo($filePath, PATHINFO_EXTENSION) !== 'sql') {
+            throw new \InvalidArgumentException("Файл не найден или не является SQL файлом: {$filePath}");
+        }
         $this->seedFiles[] = $filePath;
 
         return $this;

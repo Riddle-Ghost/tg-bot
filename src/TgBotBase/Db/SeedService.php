@@ -20,6 +20,23 @@ class SeedService
         }
     }
 
+    public function fromDirectory(string $directory): void
+    {
+        if (!str_ends_with($directory, '/')) {
+            $directory .= '/';
+        }
+
+        if (!is_dir($directory)) {
+            throw new \InvalidArgumentException("Директория не найдена: {$directory}");
+        }
+
+        foreach (scandir($directory) as $file) {
+            if (is_file($directory . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'sql') {
+                $this->fromFile($directory . $file);
+            }
+        }
+    }
+
     public function fromFile(string $filePath): void
     {
         if (!file_exists($filePath)) {
