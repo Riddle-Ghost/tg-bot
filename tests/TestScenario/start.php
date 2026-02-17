@@ -22,8 +22,8 @@ $openaiPromptId = '';
 
 # OpenRouter API Configuration
 $openrouterApiKey = '';
-$openrouterApiUrl = 'https://openrouter.ai/api/v1/chat/completions';
-$openrouterModel = 'deepseek/deepseek-r1-0528:free';
+$openrouterApiUrl = '';
+$openrouterModel = '';
 //==================
 
 $dbConfig = (new GetTestDbConfig())();
