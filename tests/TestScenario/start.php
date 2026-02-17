@@ -12,9 +12,17 @@ use Riddle\TgBotBase\Ai\AiServiceLogDecorator;
 use Riddle\TgBotBase\Ai\AiServiceContextDecorator;
 
 //==================
+# Telegram Bot Configuration
 $tgBotToken = '';
+
+# OpenAI API Configuration
 $openaiApiKey = '';
 $openaiPromptId = '';
+
+# OpenRouter API Configuration
+$openrouterApiKey = '';
+$openrouterApiUrl = '';
+$openrouterModel = '';
 //==================
 
 $dbConfig = (new GetTestDbConfig())();
