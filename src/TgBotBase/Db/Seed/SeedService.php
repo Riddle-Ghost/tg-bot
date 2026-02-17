@@ -65,9 +65,9 @@ class SeedService
         foreach ($statements as $statement) {
             if (!empty($statement)) {
                 $result = \R::exec($statement);
-                if (!$result) {
-                    throw new \RuntimeException("Не удалось выполнить вставку из seed file {$filePath}");
-                }
+                // if (!$result) {
+                //     throw new \RuntimeException("Не удалось выполнить вставку из seed file {$filePath}");
+                // }
             }
         }
 
